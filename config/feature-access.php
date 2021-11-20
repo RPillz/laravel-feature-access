@@ -28,7 +28,7 @@ return [
         'limit' => 3, // limit on number of items allowed
         'levels' => [ // Override the base feature permissions with levels or packages (eg: basic, pro, plus)
             'pro' => [ // level/package key
-                'name' => 'Extra!', // human readable name
+                'name' => 'Extra Stuff!', // human readable name
                 'create' => true, // this overrides base permission to create
                 'limit' => 5, // limit is increased
                 // other permissions will default to base feature definition (above)

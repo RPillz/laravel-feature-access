@@ -33,10 +33,28 @@ You can publish the config file with:
 php artisan vendor:publish --tag="featureaccess_without_prefix-config"
 ```
 
-This is the contents of the published config file:
+This is an example of a feature mapped out in the config file:
 
 ```php
 return [
+
+    'sample-feature' => [ // begin with the feature key name. This is used to request permissions.
+        'name' => 'Test Feature', // Human readable name
+        'read' => true, // Can read/view items in this feature
+        'edit' => true, // can edit/change/update items
+        'create' => false, // can create new items
+        'destroy' => false, // can destroy/delete items
+        'limit' => 3, // limit on number of items allowed
+        'levels' => [ // Override the base feature permissions with levels or packages (eg: basic, pro, plus)
+            'pro' => [ // level/package key
+                'name' => 'Extra Stuff!', // human readable name
+                'create' => true, // this overrides base permission to create
+                'limit' => 5, // limit is increased
+                // other permissions will default to base feature definition (above)
+            ],
+        ]
+    ],
+
 ];
 ```
 
@@ -81,9 +99,9 @@ An example, in a blade template, of adding a button to create a new Post, only i
 
 $user->setFeaturePermission('sample-feature', 'basic'); // give this user 'basic' level access to 'feature_name'
 
-$user->setFeaturePermission('sample-feature', 'extra'); // give this user 'extra' level access to 'feature_name'
+$user->setFeaturePermission('sample-feature', 'pro'); // give this user 'pro' level access to 'feature_name'
 
-$user->setFeaturePermission('sample-feature', 'extra', [ 'edit' => false ]); // give this user 'extra' level access to 'feature_name', but override the deafult setting to allow edits.
+$user->setFeaturePermission('sample-feature', 'pro', [ 'edit' => false ]); // give this user 'pro' level access to 'feature_name', but override the deafult setting to allow edits.
 
 ```
 
@@ -93,20 +111,20 @@ In the first example above, the user is granted *basic* level access to *sample-
 
 ```php
 
-$user->featureAccess('sample-feature', 'permission-level');
+$user->featureAccess('feature-name', 'permission-requested');
 
 // alias functions
 
-$user->canReadFeature('sample-feature'); // permission-level = read
-$user->canViewFeature('sample-feature'); // permission-level = read
+$user->canReadFeature('sample-feature'); // permission-requested = read
+$user->canViewFeature('sample-feature'); // permission-requested = read
 
-$user->canEditFeature('sample-feature'); // permission-level = edit
-$user->canUpdateFeature('sample-feature'); // permission-level = edit
+$user->canEditFeature('sample-feature'); // permission-requested = edit
+$user->canUpdateFeature('sample-feature'); // permission-requested = edit
 
-$user->canCreateFeature('sample-feature'); // permission-level = create
+$user->canCreateFeature('sample-feature'); // permission-requested = create
 
-$user->canDestroyFeature('sample-feature'); // permission-level = destroy
-$user->canDeleteFeature('sample-feature'); // permission-level = destroy
+$user->canDestroyFeature('sample-feature'); // permission-requested = destroy
+$user->canDeleteFeature('sample-feature'); // permission-requested = destroy
 
 
 ```
