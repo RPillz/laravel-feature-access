@@ -7,11 +7,11 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use RPillz\FeatureAccess\Traits\HasFeatures;
+use RPillz\FeatureAccess\Traits\HasFeatureAccess;
 
 class User extends Model implements AuthorizableContract, AuthenticatableContract
 {
-    use HasFeatures;
+    use HasFeatureAccess;
     use Authorizable;
     use Authenticatable;
 

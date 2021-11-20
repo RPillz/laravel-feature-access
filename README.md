@@ -65,12 +65,12 @@ return [
 Add it to your User model, which would allow that user to access (or not access) features.
 
 ```php
-use RPillz\FeatureAccess\Traits\HasFeatures;
+use RPillz\FeatureAccess\Traits\HasFeatureAccess;
 
 class User extends Authenticatable
 {
 
-    use HasFeatures;
+    use HasFeatureAccess;
 
     ...
 ```

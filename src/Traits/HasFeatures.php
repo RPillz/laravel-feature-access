@@ -4,7 +4,7 @@ namespace RPillz\FeatureAccess\Traits;
 
 use RPillz\FeatureAccess\Models\Feature;
 
-trait HasFeatures
+trait HasFeatureAccess
 {
     public function features()
     {
