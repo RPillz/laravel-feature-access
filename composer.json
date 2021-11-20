@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "rpillz/featureaccess",
+    "description": "Feature access for Laravel apps",
     "keywords": [
-        ":vendor_name",
+        "RPillz",
         "laravel",
-        ":package_slug"
+        "featureaccess"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/rpillz/featureaccess",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Ryan Pilling",
+            "email": "ryan@rpillz.com",
             "role": "Developer"
         }
     ],
@@ -34,13 +34,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "RPillz\\FeatureAccess\\": "src",
+            "RPillz\\FeatureAccess\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "RPillz\\FeatureAccess\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,10 +54,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "RPillz\\FeatureAccess\\FeatureAccessServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "FeatureAccess": "RPillz\\FeatureAccess\\Facades\\FeatureAccess"
             }
         }
     },

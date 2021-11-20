@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace RPillz\FeatureAccess\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FeatureAccessCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'featureaccess';
 
     public $description = 'My command';
 

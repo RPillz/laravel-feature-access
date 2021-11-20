@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('features', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('owner');
+            $table->string('feature')->index();
+            $table->string('level')->nullable();
+            $table->boolean('read')->nullable();
+            $table->boolean('edit')->nullable();
+            $table->boolean('create')->nullable();
+            $table->boolean('destroy')->nullable();
+            $table->integer('limit')->nullable();
+            $table->timestamp('expires_at')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('features');
+    }
+};

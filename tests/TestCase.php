@@ -1,26 +1,33 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace RPillz\FeatureAccess\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use RPillz\FeatureAccess\FeatureAccessServiceProvider;
 
 class TestCase extends Orchestra
 {
+    protected $testUser;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        // Factory::guessFactoryNamesUsing(
+        //     fn (string $modelName) => 'RPillz\\FeatureAccess\\Database\\Factories\\'.class_basename($modelName).'Factory'
+        // );
+
+        $this->setUpDatabase($this->app);
+
+        $this->testUser = User::first();
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            FeatureAccessServiceProvider::class,
         ];
     }
 
@@ -28,9 +35,18 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_features_table.php.stub';
         $migration->up();
-        */
+    }
+
+    protected function setUpDatabase($app)
+    {
+        $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->softDeletes();
+        });
+
+        User::create(['email' => 'test@user.com']);
     }
 }

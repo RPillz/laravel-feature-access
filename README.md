@@ -1,54 +1,36 @@
-# :package_description
+# Feature access for Laravel apps
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/run-tests?label=tests)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/Check%20&%20fix%20styling?label=code%20style)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rpillz/featureaccess.svg?style=flat-square)](https://packagist.org/packages/rpillz/featureaccess)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/rpillz/featureaccess/run-tests?label=tests)](https://github.com/rpillz/featureaccess/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/rpillz/featureaccess/Check%20&%20fix%20styling?label=code%20style)](https://github.com/rpillz/featureaccess/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/rpillz/featureaccess.svg?style=flat-square)](https://packagist.org/packages/rpillz/featureaccess)
 
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+Add Plans (eg: Basic, Standard, Pro) and Feature restrictions (eg: Can Make 3 Pages, Can Upload Video) to your Laravel app.
 
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this skeleton
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files
-3. Remove this block of text.
-4. Have fun creating your package.
-5. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
+Plans and corresponding features are hard-coded in a config file, but these defaults may be overridden with a database entry for a specific user. (ie: Your special friend who wants all the features, but, like, for free.)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Feature access can be assigned to any model (eg: User, Team) via a trait, which adds properties to use in your app logic, such as $user->canViewFeature('pictures-of-my-dog')
 
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+**Be Warned:** Don't assume I know what I'm doing. This is my first public package release, and I'll probably be making plenty of mistakes along the way.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require rpillz/featureaccess
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug_without_prefix-migrations"
+php artisan vendor:publish --tag="featureaccess_without_prefix-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --tag=":package_slug_without_prefix-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="example-views"
+php artisan vendor:publish --tag="featureaccess_without_prefix-config"
 ```
 
 This is the contents of the published config file:
@@ -60,10 +42,78 @@ return [
 
 ## Usage
 
+### Add Trait To Model
+
+Add it to your User model, which would allow that user to access (or not access) features.
+
 ```php
-$skeleton = new VendorName\Skeleton();
-echo $skeleton->echoPhrase('Hello, VendorName!');
+use RPillz\FeatureAccess\Traits\HasFeatures;
+
+class User extends Authenticatable
+{
+
+    use HasFeatures;
+
+    ...
 ```
+
+Your app may make use of Teams (a la Jetstream) in which case you may want to have the Team model using this trait, and accessing user permissions via their team.
+
+```php
+Auth::user()->currentTeam->canReadFeature('maple-syrup');
+```
+
+This trait can be applied to any Model, or even multiple models if you want to be able apply permissions to both Users and Teams individually. (There is no built-in permission inheritance in such a case, just one or the other.)
+
+#### Use Trait Functions
+
+An example, in a blade template, of adding a button to create a new Post, only if the current user is allowed to *create* on the feature *posts*.
+
+```php
+@if(Auth::user()->canCreateFeature('posts'))
+    <button>Add New Post</button>
+@endif
+```
+
+##### Set Permission
+
+```php
+
+$user->setFeaturePermission('sample-feature', 'basic'); // give this user 'basic' level access to 'feature_name'
+
+$user->setFeaturePermission('sample-feature', 'extra'); // give this user 'extra' level access to 'feature_name'
+
+$user->setFeaturePermission('sample-feature', 'extra', [ 'edit' => false ]); // give this user 'extra' level access to 'feature_name', but override the deafult setting to allow edits.
+
+```
+
+In the first example above, the user is granted *basic* level access to *sample-feature*. However, there is no *basic* level defined in the feature config file. Their permissions for *sample-feature* will default to the basic settings. These same default settings would be used if no level has been explicitly set for a user.
+
+##### Check Permission
+
+```php
+
+$user->featureAccess('sample-feature', 'permission-level');
+
+// alias functions
+
+$user->canReadFeature('sample-feature'); // permission-level = read
+$user->canViewFeature('sample-feature'); // permission-level = read
+
+$user->canEditFeature('sample-feature'); // permission-level = edit
+$user->canUpdateFeature('sample-feature'); // permission-level = edit
+
+$user->canCreateFeature('sample-feature'); // permission-level = create
+
+$user->canDestroyFeature('sample-feature'); // permission-level = destroy
+$user->canDeleteFeature('sample-feature'); // permission-level = destroy
+
+
+```
+
+### Super-Admin Permission
+
+In the config file there is a **'super_admin_access'** array of email addresses. If the current user email matches one of these, all permission tests will return true. They get to do *everything*.
 
 ## Testing
 
@@ -85,7 +135,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Ryan Pilling](https://github.com/RPillz)
 - [All Contributors](../../contributors)
 
 ## License
