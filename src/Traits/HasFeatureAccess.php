@@ -77,14 +77,14 @@ trait HasFeatureAccess
         return $this->featureAccess($slug, 'read');
     }
 
-    public function canEditFeature($slug)
-    {
-        return $this->featureAccess($slug, 'edit');
-    }
-
     public function canUpdateFeature($slug)
     {
-        return $this->featureAccess($slug, 'edit');
+        return $this->featureAccess($slug, 'update');
+    }
+
+    public function canEditFeature($slug)
+    {
+        return $this->featureAccess($slug, 'update');
     }
 
     public function canCreateFeature($slug)

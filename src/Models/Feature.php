@@ -13,7 +13,7 @@ class Feature extends Model
 
     protected $casts = [
         'read' => 'boolean',
-        'edit' => 'boolean',
+        'update' => 'boolean',
         'create' => 'boolean',
         'destroy' => 'boolean',
         'limit' => 'integer',
@@ -27,7 +27,7 @@ class Feature extends Model
 
     public function permission()
     {
-        $permissions = ['name', 'read', 'edit', 'create', 'destroy', 'limit', 'level'];
+        $permissions = ['name', 'create', 'read', 'update', 'destroy', 'limit', 'level'];
 
         $access = [];
 

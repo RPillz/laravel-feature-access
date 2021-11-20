@@ -12,18 +12,18 @@ return [
 
     'super_admin_permission' => [
         'name' => 'Super-Admin Access',
-        'read' => true,
-        'edit' => true,
         'create' => true,
+        'read' => true,
+        'update' => true,
         'destroy' => true,
         'limit' => 99
     ],
 
     'sample-feature' => [ // begin with the feature key name. This is used to request permissions.
         'name' => 'Test Feature', // Human readable name
-        'read' => true, // Can read/view items in this feature
-        'edit' => true, // can edit/change/update items
         'create' => false, // can create new items
+        'read' => true, // Can read/view items in this feature
+        'update' => true, // can edit/change/update items
         'destroy' => false, // can destroy/delete items
         'limit' => 3, // limit on number of items allowed
         'levels' => [ // Override the base feature permissions with levels or packages (eg: basic, pro, plus)
@@ -38,23 +38,23 @@ return [
 
     'pages' => [
         'name' => 'Page Manager',
-        'read' => true,
-        'edit' => false,
         'create' => false,
+        'read' => true,
+        'update' => false,
         'destroy' => false,
         'limit' => 0,
         'levels' => [
             'basic' => [
                 'name' => 'Single Page',
-                'edit' => true,
                 'create' => true,
+                'update' => true,
                 'destroy' => true,
                 'limit' => 1,
             ],
             'pro' => [
                 'name' => 'Three Pages',
-                'edit' => true,
                 'create' => true,
+                'update' => true,
                 'destroy' => true,
                 'limit' => 3,
             ]

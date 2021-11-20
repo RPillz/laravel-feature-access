@@ -41,7 +41,7 @@ return [
     'sample-feature' => [ // begin with the feature key name. This is used to request permissions.
         'name' => 'Test Feature', // Human readable name
         'read' => true, // Can read/view items in this feature
-        'edit' => true, // can edit/change/update items
+        'update' => true, // can edit/change/update items
         'create' => false, // can create new items
         'destroy' => false, // can destroy/delete items
         'limit' => 3, // limit on number of items allowed
@@ -101,7 +101,7 @@ $user->setFeaturePermission('sample-feature', 'basic'); // give this user 'basic
 
 $user->setFeaturePermission('sample-feature', 'pro'); // give this user 'pro' level access to 'feature_name'
 
-$user->setFeaturePermission('sample-feature', 'pro', [ 'edit' => false ]); // give this user 'pro' level access to 'feature_name', but override the deafult setting to allow edits.
+$user->setFeaturePermission('sample-feature', 'pro', [ 'update' => false ]); // give this user 'pro' level access to 'feature_name', but override the deafult setting to allow edits.
 
 ```
 

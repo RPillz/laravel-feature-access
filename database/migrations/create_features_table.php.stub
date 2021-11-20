@@ -13,9 +13,9 @@ return new class extends Migration
             $table->morphs('owner');
             $table->string('feature')->index();
             $table->string('level')->nullable();
-            $table->boolean('read')->nullable();
-            $table->boolean('edit')->nullable();
             $table->boolean('create')->nullable();
+            $table->boolean('read')->nullable();
+            $table->boolean('update')->nullable();
             $table->boolean('destroy')->nullable();
             $table->integer('limit')->nullable();
             $table->timestamp('expires_at')->nullable();
