@@ -32,9 +32,9 @@ class Feature extends Model
         $access = [];
 
         foreach ($permissions as $permission) {
-            if (!is_null($this->$permission)) {
+            if (! is_null($this->$permission)) {
                 $access[$permission] = $this->$permission;
-            } elseif (!is_null($this->level) && $value = config('feature-access.'.$this->feature.'.levels.'.$this->level.'.'.$permission)) {
+            } elseif (! is_null($this->level) && $value = config('feature-access.'.$this->feature.'.levels.'.$this->level.'.'.$permission)) {
                 $access[$permission] = $value;
             } else {
                 $access[$permission] = config('feature-access.'.$this->feature.'.'.$permission);
