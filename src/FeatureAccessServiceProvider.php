@@ -2,9 +2,9 @@
 
 namespace RPillz\FeatureAccess;
 
+use RPillz\FeatureAccess\Commands\FeatureAccessCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use RPillz\FeatureAccess\Commands\FeatureAccessCommand;
 
 class FeatureAccessServiceProvider extends PackageServiceProvider
 {
