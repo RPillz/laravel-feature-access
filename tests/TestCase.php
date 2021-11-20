@@ -2,9 +2,9 @@
 
 namespace RPillz\FeatureAccess\Tests;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use RPillz\FeatureAccess\FeatureAccessServiceProvider;
 
 class TestCase extends Orchestra
