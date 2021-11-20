@@ -2,6 +2,7 @@
 
 namespace RPillz\FeatureAccess\Database\Factories;
 
+use RPillz\FeatureAccess\Models\Feature;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FeatureFactory extends Factory

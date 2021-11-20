@@ -20,30 +20,27 @@ class Feature extends Model
         'expires_at' => 'timestamp',
     ];
 
-    public function owner(){
+    public function owner()
+    {
         return $this->morphTo();
     }
 
-    public function permission(){
-
+    public function permission()
+    {
         $permissions = ['name', 'read', 'edit', 'create', 'destroy', 'limit', 'level'];
 
         $access = [];
 
-        foreach ($permissions as $permission){
-
-            if (!is_null($this->$permission)){
+        foreach ($permissions as $permission) {
+            if (!is_null($this->$permission)) {
                 $access[$permission] = $this->$permission;
-            } elseif (!is_null($this->level) && $value = config('feature-access.'.$this->feature.'.levels.'.$this->level.'.'.$permission)){
+            } elseif (!is_null($this->level) && $value = config('feature-access.'.$this->feature.'.levels.'.$this->level.'.'.$permission)) {
                 $access[$permission] = $value;
             } else {
                 $access[$permission] = config('feature-access.'.$this->feature.'.'.$permission);
             }
-
         }
 
         return $access;
-
     }
-
 }
