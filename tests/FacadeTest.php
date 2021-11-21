@@ -30,17 +30,14 @@ it('can get feature with level from facade', function () {
 });
 
 it('can get base feature permission for guest', function () {
-
     $permission = FeatureAccess::guestCan('sample-feature', 'read');
     expect($permission)->toBeTrue();
 
     $permission = FeatureAccess::guestCan('sample-feature', 'destroy');
     expect($permission)->toBeFalse();
-
 });
 
 it('can get feature permission for user', function () {
-
     $this->loginWithFakeUser();
 
     $permission = FeatureAccess::userCan('sample-feature', 'read');
@@ -53,11 +50,9 @@ it('can get feature permission for user', function () {
 
     $permission = FeatureAccess::userCan('sample-feature', 'create');
     expect($permission)->toBeTrue();
-
 });
 
 it('can get feature permission for team', function () {
-
     $this->loginWithFakeUser();
 
     $permission = FeatureAccess::teamCan('sample-feature', 'read');
@@ -65,5 +60,4 @@ it('can get feature permission for team', function () {
 
     $permission = FeatureAccess::teamCan('sample-feature', 'destroy');
     expect($permission)->toBeFalse();
-
-})->skip(fn() => !isset(Auth::user()->currentTeam), 'Only runs when user has currentTeam');
+})->skip(fn () => ! isset(Auth::user()->currentTeam), 'Only runs when user has currentTeam');

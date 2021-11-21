@@ -2,9 +2,8 @@
 
 namespace RPillz\FeatureAccess\Traits;
 
-use Illuminate\Support\Facades\Auth;
-use RPillz\FeatureAccess\Models\FeatureAccess as FeatureAccessModel;
 use RPillz\FeatureAccess\Facades\FeatureAccess;
+use RPillz\FeatureAccess\Models\FeatureAccess as FeatureAccessModel;
 
 trait HasFeatureAccess
 {
@@ -55,11 +54,11 @@ trait HasFeatureAccess
     {
 
         // super admins can do everything!
-        if ($this->hasAllFeatures()){
+        if ($this->hasAllFeatures()) {
             return true;
         }
 
-        if (!$feature = $this->getFeatureData($feature_name)) {
+        if (! $feature = $this->getFeatureData($feature_name)) {
             return false;
         }
 
@@ -107,10 +106,9 @@ trait HasFeatureAccess
 
     public function hasAllFeatures(): bool
     {
-
         $property = config('feature-access.super_admin_property', 'email');
 
-        if (! isset($this->$property)){
+        if (! isset($this->$property)) {
             return false;
         }
 

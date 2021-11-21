@@ -58,5 +58,4 @@ class TestCase extends Orchestra
 
         $this->be($user);
     }
-
 }
