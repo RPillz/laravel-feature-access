@@ -16,8 +16,8 @@ class FeatureAccessServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('featureaccess')
-            ->hasConfigFile('feature-access')
+            ->name('laravel-feature-access')
+            ->hasConfigFile()
             // ->hasViews()
             // ->hasCommand(FeatureAccessCommand::class)
             ->hasMigration('create_feature_access_table');

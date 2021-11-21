@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('feature_access', function (Blueprint $table) {
             $table->id();
             $table->morphs('owner');
             $table->string('feature')->index();

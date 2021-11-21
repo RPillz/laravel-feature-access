@@ -1,12 +1,12 @@
 {
-    "name": "rpillz/featureaccess",
+    "name": "rpillz/laravel-feature-access",
     "description": "Feature access for Laravel apps",
     "keywords": [
         "RPillz",
         "laravel",
-        "featureaccess"
+        "laravel-feature-access"
     ],
-    "homepage": "https://github.com/rpillz/featureaccess",
+    "homepage": "https://github.com/rpillz/laravel-feature-access",
     "license": "MIT",
     "authors": [
         {

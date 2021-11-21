@@ -5,20 +5,23 @@ namespace RPillz\FeatureAccess\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Feature extends Model
+class FeatureAccess extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id','created_at','updated_at'];
 
     protected $casts = [
+        'create' => 'boolean',
         'read' => 'boolean',
         'update' => 'boolean',
-        'create' => 'boolean',
         'destroy' => 'boolean',
         'limit' => 'integer',
         'expires_at' => 'timestamp',
     ];
+
+    protected $table = 'feature_access';
+
 
     public function owner()
     {
@@ -43,4 +46,5 @@ class Feature extends Model
 
         return $access;
     }
+
 }

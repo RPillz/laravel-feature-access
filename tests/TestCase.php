@@ -21,7 +21,8 @@ class TestCase extends Orchestra
 
         $this->setUpDatabase($this->app);
 
-        $this->testUser = User::first();
+        $this->testUser = User::where('email', 'test@example.com')->first();
+        $this->testAdmin = User::where('email', 'admin@example.com')->first();
     }
 
     protected function getPackageProviders($app)
@@ -35,7 +36,7 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        $migration = include __DIR__.'/../database/migrations/create_features_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_feature_access_table.php.stub';
         $migration->up();
     }
 
@@ -47,6 +48,15 @@ class TestCase extends Orchestra
             $table->softDeletes();
         });
 
-        User::create(['email' => 'test@user.com']);
+        User::create(['email' => 'test@example.com']);
+        User::create(['email' => 'admin@example.com']);
     }
+
+    public function loginWithFakeUser()
+    {
+        $user = User::first();
+
+        $this->be($user);
+    }
+
 }

@@ -2,12 +2,12 @@
 
 namespace RPillz\FeatureAccess\Database\Factories;
 
-use RPillz\FeatureAccess\Models\Feature;
+use RPillz\FeatureAccess\Models\FeatureAccess;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FeatureFactory extends Factory
 {
-    protected $model = Feature::class;
+    protected $model = FeatureAccess::class;
 
     public function definition()
     {

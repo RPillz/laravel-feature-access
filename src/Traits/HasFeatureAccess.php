@@ -2,21 +2,23 @@
 
 namespace RPillz\FeatureAccess\Traits;
 
-use RPillz\FeatureAccess\Models\Feature;
+use Illuminate\Support\Facades\Auth;
+use RPillz\FeatureAccess\Models\FeatureAccess as FeatureAccessModel;
+use RPillz\FeatureAccess\Facades\FeatureAccess;
 
 trait HasFeatureAccess
 {
-    public function features()
+    public function featureAccess()
     {
-        return $this->morphMany(Feature::class, 'owner');
+        return $this->morphMany(FeatureAccessModel::class, 'owner');
     }
 
-    public function getFeature(string $slug)
+    public function getFeature(string $feature_name)
     {
-        return $this->features->where('feature', $slug)->first();
+        return $this->featureAccess->where('feature', $feature_name)->first();
     }
 
-    public function setFeaturePermission(string $slug, string $level, array $permission = null)
+    public function setFeatureAccess(string $feature_name, string $level, array $permission = null)
     {
         if (! is_array($permission)) {
             $permission = [];
@@ -24,81 +26,98 @@ trait HasFeatureAccess
 
         $permission['level'] = $level;
 
-        $this->features()->updateOrCreate([ 'feature' => $slug ], $permission);
+        $this->featureAccess()->updateOrCreate([ 'feature' => $feature_name ], $permission);
+
+        $this->load('featureAccess');
     }
 
-    public function getFeaturePermission(string $slug): array
+    public function getFeatureData(string $feature_name): ?array
     {
-        if ($feature = $this->getFeature($slug)) { // if db record is found us that
+        if ($feature = $this->getFeature($feature_name)) { // if db record is found us that
             return $feature->permission();
-        } elseif ($permission = config('feature-access.'.$slug)) { // or use default from config file
-            unset($permission['levels']);
-
-            return $permission;
         }
 
-        return [];
+        return FeatureAccess::getFeatureFromConfig($feature_name);
     }
 
-    public function featureAccess(string $slug, $access = null)
+    public function getFeatureLevel(string $feature_name): string
+    {
+        $feature = $this->getFeature($feature_name);
+
+        if (! $feature) {
+            return null;
+        }
+
+        return $feature->level;
+    }
+
+    public function canUseFeature(string $feature_name, $permission): bool
     {
 
-        // check for super-admin email match
-        if (auth()->user() && in_array(auth()->user()->email, config('feature-access.super_admin_access'))) {
-            if (is_null($access)) {
-                return config('feature-access.super_admin_permission');
-            }
-
+        // super admins can do everything!
+        if ($this->hasAllFeatures()){
             return true;
         }
 
-        if ($permission = $this->getFeaturePermission($slug)) {
-            if ($access) {
-                if (isset($permission[$access])) {
-                    return $permission[$access];
-                }
+        if (!$feature = $this->getFeatureData($feature_name)) {
+            return false;
+        }
 
-                return false;
-            }
-
-            return $permission;
+        if (isset($feature[$permission])) {
+            return $feature[$permission];
         }
 
         return false;
     }
 
-    public function canReadFeature($slug)
+    public function canReadFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'read');
+        return $this->canUseFeature($feature_name, 'read');
     }
 
-    public function canViewFeature($slug)
+    public function canViewFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'read');
+        return $this->canUseFeature($feature_name, 'read');
     }
 
-    public function canUpdateFeature($slug)
+    public function canUpdateFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'update');
+        return $this->canUseFeature($feature_name, 'update');
     }
 
-    public function canEditFeature($slug)
+    public function canEditFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'update');
+        return $this->canUseFeature($feature_name, 'update');
     }
 
-    public function canCreateFeature($slug)
+    public function canCreateFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'create');
+        return $this->canUseFeature($feature_name, 'create');
     }
 
-    public function canDestroyFeature($slug)
+    public function canDestroyFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'destroy');
+        return $this->canUseFeature($feature_name, 'destroy');
     }
 
-    public function canDeleteFeature($slug)
+    public function canDeleteFeature($feature_name)
     {
-        return $this->featureAccess($slug, 'destroy');
+        return $this->canUseFeature($feature_name, 'destroy');
+    }
+
+    public function hasAllFeatures(): bool
+    {
+
+        $property = config('feature-access.super_admin_property', 'email');
+
+        if (! isset($this->$property)){
+            return false;
+        }
+
+        if (! in_array($this->$property, config('feature-access.super_admin_access'))) {
+            return false;
+        }
+
+        return true;
     }
 }

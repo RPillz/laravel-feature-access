@@ -4,7 +4,7 @@ it('has sample feature', function () {
     $feature = config('feature-access.sample-feature');
     unset($feature['levels']);
 
-    $user_feature = $this->testUser->featureAccess('sample-feature');
+    $user_feature = $this->testUser->getFeatureData('sample-feature');
 
     $this->assertEquals($feature, $user_feature);
 });
@@ -19,9 +19,9 @@ it('has sample feature with pro level', function () {
 
     $combined_feature['level'] = 'pro';
 
-    $this->testUser->setFeaturePermission('sample-feature', 'pro');
+    $this->testUser->setFeatureAccess('sample-feature', 'pro');
 
-    $user_feature = $this->testUser->featureAccess('sample-feature');
+    $user_feature = $this->testUser->getFeatureData('sample-feature');
 
     $this->assertEquals($combined_feature, $user_feature);
 });
@@ -44,10 +44,30 @@ it('has permission to create sample feature only at pro level', function () {
     $user_can_create = $this->testUser->canCreateFeature('sample-feature');
     expect($user_can_create)->toBeFalse();
 
-    $this->testUser->setFeaturePermission('sample-feature', 'pro');
+    $this->testUser->setFeatureAccess('sample-feature', 'pro');
 
-    $this->testUser->refresh();
+    // $this->testUser->refresh();
 
     $pro_user_can_create = $this->testUser->canCreateFeature('sample-feature');
     expect($pro_user_can_create)->toBeTrue();
+});
+
+it('has feature level', function () {
+
+    $this->testUser->setFeatureAccess('sample-feature', 'tested');
+
+    $user_level = $this->testUser->getFeatureLevel('sample-feature');
+
+    $this->assertEquals($user_level, 'tested');
+
+});
+
+it('has permission for super admin', function () {
+
+    $user_can_create = $this->testUser->canCreateFeature('sample-feature');
+    expect($user_can_create)->toBeFalse();
+
+    $admin_can_create = $this->testAdmin->canCreateFeature('sample-feature');
+    expect($admin_can_create)->toBeTrue();
+
 });

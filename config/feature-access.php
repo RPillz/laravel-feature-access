@@ -5,19 +5,13 @@
  */
 return [
 
-    // array of email addresses for users who get permission to everything
-    'super_admin_access' => [
+    // grant all access to models which match...
+    'super_admin_property' => 'email', // this property...
+    'super_admin_access' => [ // to any of these.
         'admin@example.com',
     ],
 
-    'super_admin_permission' => [
-        'name' => 'Super-Admin Access',
-        'create' => true,
-        'read' => true,
-        'update' => true,
-        'destroy' => true,
-        'limit' => 99
-    ],
+    // Define your features, one per array
 
     'sample-feature' => [ // begin with the feature key name. This is used to request permissions.
         'name' => 'Test Feature', // Human readable name
