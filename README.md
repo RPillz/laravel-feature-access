@@ -1,9 +1,9 @@
 # Feature access for Laravel apps
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rpillz/featureaccess.svg?style=flat-square)](https://packagist.org/packages/rpillz/featureaccess)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/rpillz/featureaccess/run-tests?label=tests)](https://github.com/rpillz/featureaccess/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/rpillz/featureaccess/Check%20&%20fix%20styling?label=code%20style)](https://github.com/rpillz/featureaccess/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/rpillz/featureaccess.svg?style=flat-square)](https://packagist.org/packages/rpillz/featureaccess)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rpillz/laravel-feature-access.svg?style=flat-square)](https://packagist.org/packages/rpillz/laravel-feature-access)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/rpillz/laravel-feature-access/run-tests?label=tests)](https://github.com/rpillz/laravel-feature-access/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/rpillz/laravel-feature-access/Check%20&%20fix%20styling?label=code%20style)](https://github.com/rpillz/laravel-feature-access/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/rpillz/laravel-feature-access.svg?style=flat-square)](https://packagist.org/packages/rpillz/laravel-feature-access)
 
 Add Plans (eg: Basic, Standard, Pro) and Feature restrictions (eg: Can Make 3 Pages, Can Upload Video) to your Laravel app.
 
