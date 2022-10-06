@@ -53,21 +53,17 @@ it('has permission to create sample feature only at pro level', function () {
 });
 
 it('has feature level', function () {
-
     $this->testUser->setFeatureAccess('sample-feature', 'tested');
 
     $user_level = $this->testUser->getFeatureLevel('sample-feature');
 
     $this->assertEquals($user_level, 'tested');
-
 });
 
 it('has permission for super admin', function () {
-
     $user_can_create = $this->testUser->canCreateFeature('sample-feature');
     expect($user_can_create)->toBeFalse();
 
     $admin_can_create = $this->testAdmin->canCreateFeature('sample-feature');
     expect($admin_can_create)->toBeTrue();
-
 });

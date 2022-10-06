@@ -22,7 +22,6 @@ class FeatureAccess extends Model
 
     protected $table = 'feature_access';
 
-
     public function owner()
     {
         return $this->morphTo();
@@ -46,5 +45,4 @@ class FeatureAccess extends Model
 
         return $access;
     }
-
 }
