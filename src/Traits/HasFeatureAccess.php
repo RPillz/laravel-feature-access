@@ -52,7 +52,6 @@ trait HasFeatureAccess
 
     public function canUseFeature(string $feature_name, $permission): bool
     {
-
         // super admins can do everything!
         if ($this->hasAllFeatures()) {
             return true;
