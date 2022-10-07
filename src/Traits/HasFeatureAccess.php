@@ -102,7 +102,7 @@ trait HasFeatureAccess
         return isset($data['limit']) ? $data['limit'] : null;
     }
 
-    public function withinFeatureLimit(string $feature_name, int $count, int $add = 1): bool
+    public function withinFeatureLimit(string $feature_name, int $count, int $add = 0): bool
     {
         $data = $this->getFeatureData($feature_name);
 

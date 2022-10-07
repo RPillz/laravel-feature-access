@@ -20,4 +20,9 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
     public $timestamps = false;
 
     protected $table = 'users';
+
+    public function getFeatureSubscriptionLevel(string $feature_name = null): ?string
+    {
+        return 'pro';
+    }
 }

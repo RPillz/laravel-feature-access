@@ -67,3 +67,34 @@ it('has permission for super admin', function () {
     $admin_can_create = $this->testAdmin->canCreateFeature('sample-feature');
     expect($admin_can_create)->toBeTrue();
 });
+
+it('checks limits on feature', function () {
+
+    $check_limit = $this->testUser->getFeatureLimit('sample-feature');
+    $this->assertEquals($check_limit, 3);
+
+    $under_limit = $this->testUser->withinFeatureLimit('sample-feature', 1);
+    expect($under_limit)->toBeTrue();
+
+    $at_limit = $this->testUser->withinFeatureLimit('sample-feature', 3);
+    expect($at_limit)->toBeTrue();
+
+    $over_limit = $this->testUser->withinFeatureLimit('sample-feature', 4);
+    expect($over_limit)->toBeFalse();
+
+    $will_be_over_limit = $this->testUser->withinFeatureLimit('sample-feature', 1, 5);
+    expect($will_be_over_limit)->toBeFalse();
+
+});
+
+it('checks for a feature upgraded by user subscription', function () {
+
+    $default_limit = $this->testUser->getFeatureLimit('sample-feature');
+    $this->assertEquals($default_limit, 3);
+
+    config([ 'feature-access.subscriptions' => true ]);
+
+    $pro_limit = $this->testUser->getFeatureLimit('sample-feature');
+    $this->assertEquals($pro_limit, 5);
+
+});
