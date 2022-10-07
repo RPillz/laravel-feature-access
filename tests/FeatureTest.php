@@ -69,7 +69,6 @@ it('has permission for super admin', function () {
 });
 
 it('checks limits on feature', function () {
-
     $check_limit = $this->testUser->getFeatureLimit('sample-feature');
     $this->assertEquals($check_limit, 3);
 
@@ -84,11 +83,9 @@ it('checks limits on feature', function () {
 
     $will_be_over_limit = $this->testUser->withinFeatureLimit('sample-feature', 1, 5);
     expect($will_be_over_limit)->toBeFalse();
-
 });
 
 it('checks for a feature upgraded by user subscription', function () {
-
     $default_limit = $this->testUser->getFeatureLimit('sample-feature');
     $this->assertEquals($default_limit, 3);
 
@@ -96,5 +93,4 @@ it('checks for a feature upgraded by user subscription', function () {
 
     $pro_limit = $this->testUser->getFeatureLimit('sample-feature');
     $this->assertEquals($pro_limit, 5);
-
 });
