@@ -150,6 +150,9 @@ $user->canEditFeature('sample-feature'); // permission-requested = update
 $user->canDestroyFeature('sample-feature'); // permission-requested = destroy
 $user->canDeleteFeature('sample-feature'); // permission-requested = destroy
 
+$user->withinFeatureLimit('sample-feature', $user->items->count()); // compares against feature limit
+$user->withinFeatureLimit('sample-feature', $user->items->count(), 1); // is there room to add 1 more item?
+
 // or get all the permission data for your model
 
 $user->getFeatureData('sample-feature'); // return array
@@ -193,6 +196,55 @@ FeatureAccess::userFeature('sample-feature'); // returns array
 FeatureAccess::teamFeature('sample-feature'); // returns array
 
 ```
+
+### Integrating with Subscriptions (from Cashier, SPark, etc.)
+
+Rather than creating/updating duplicate database rows to change a user's feature access level, there is a feature to dynamically check the active subscription level for a user, and get the feature permissions accordingly.
+
+This feature must be activated in the *feature-access.php* config file.
+
+```php
+// Check for active subscription to grant access
+'subscriptions' => true,
+```
+
+Then you need to add a function on your User model (or Team model, or whatever is using the *HasFeatureAccess* trait) which will return a name corresponding to the appropriate level, as defined in your feature config.
+
+```php
+public function getFeatureSubscriptionLevel(string $feature_name = null): ?string
+    {
+        // this logic needs to be customized according to your subscription set-up
+        if ($subscription = $this->subscriptions->active()->first()){
+            return $subscription->name; // ie: "pro"
+        }
+
+        return null;
+    }
+```
+
+Once you have this set, the subscription will be consulted when returning a User's current feature access.
+
+```php
+$free_user->canCreateFeature('sample-feature'); //false
+
+$pro_user->canCreateFeature('sample-feature'); //true
+```
+
+In order of priority, the user's feature level is first determined by anything saved in the database (by *setFeatureAccesss()* for example), then checking the subscription level (if activated) and finally defaulting to the config file. This means it is possible to upgrade access above and beyond a paid subscription for your VIP users on a case-by-case basis. (technically, you could also downgrade them, you monster!)
+
+Here's an example of the function to go along with Laravel Spark subscriptions.
+
+```php
+public function getFeatureSubscriptionLevel(string $feature_name = null): ?string
+{
+    // If you're using Laravel Spark with this model as a Billable.
+    // Note: The plan name from Spark is likely capitalized. Make sure it matches your feature-access config level names exactly.
+    return $this->sparkPlan()->name ?: null;
+
+}
+```
+
+Notice, also, that this function accepts an optional *$feature_name* argument, which allows you to be more granular in your subscription and logic if needed. (ie: if the subscription to access Pages is different from the subscription to access Blogs)
 
 ### Super-Admin Permission
 
