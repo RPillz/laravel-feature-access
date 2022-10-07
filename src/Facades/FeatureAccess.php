@@ -24,7 +24,7 @@ class FeatureAccess extends Facade
 
         if (! is_null($level)) {
             $feature_level = config('feature-access.'.$feature_name.'.levels.'.$level);
-            if (is_array($feature_level)){
+            if (is_array($feature_level)) {
                 $feature = array_merge($feature, $feature_level);
                 $feature['level'] = $level;
             }

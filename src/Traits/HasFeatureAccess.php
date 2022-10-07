@@ -51,7 +51,7 @@ trait HasFeatureAccess
         }
 
         // check for active subscription, and return that level access
-        if ( config('feature-access.subscriptions') && $level = $this->getFeatureSubscriptionLevel($feature_name) ){
+        if (config('feature-access.subscriptions') && $level = $this->getFeatureSubscriptionLevel($feature_name)) {
             return FeatureAccess::getFeatureFromConfig($feature_name, $level);
         }
 
@@ -65,18 +65,15 @@ trait HasFeatureAccess
     */
     public function getFeatureSubscriptionLevel(string $feature_name = null): ?string
     {
-        if ($this->subscriptions) // check that the relationship exists
-        {
+        if ($this->subscriptions) { // check that the relationship exists
             // check for the first active subscription.
             // Note: this will work in an app where users have only one subscription at a time.
-            if ($subscription = $this->subscriptions()->active()->first()){
-
+            if ($subscription = $this->subscriptions()->active()->first()) {
                 // The Cashier subscription name is probably "default" by default. Not super helpful.
                 return $subscription->name;
 
                 // It may be more helpful to return the subscription product code (eg: prod_123ABC789)
                 // return $subscription->items()->first()->stripe_product;
-
             }
         }
 
@@ -96,7 +93,6 @@ trait HasFeatureAccess
         $data = $this->getFeatureData($feature_name);
 
         return isset($data['level']) ? $data['level'] : null;
-
     }
 
     public function getFeatureLimit(string $feature_name): ?string
@@ -104,14 +100,15 @@ trait HasFeatureAccess
         $data = $this->getFeatureData($feature_name);
 
         return isset($data['limit']) ? $data['limit'] : null;
-
     }
 
     public function withinFeatureLimit(string $feature_name, int $count, int $add = 1): bool
     {
         $data = $this->getFeatureData($feature_name);
 
-        if ( isset($data['limit']) ) return $data['limit'] >= $count + $add ? true : false;
+        if (isset($data['limit'])) {
+            return $data['limit'] >= $count + $add ? true : false;
+        }
 
         // no limit set
         return true;
