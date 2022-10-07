@@ -11,6 +11,9 @@ return [
         'admin@example.com',
     ],
 
+    // Check for active subscription to grant access (integrates with Cashier/Spark by default, can be customized)
+    'subscriptions' => false,
+
     // Define your features, one per array
 
     'sample-feature' => [ // begin with the feature key name. This is used to request permissions.
