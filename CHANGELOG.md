@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-feature-access` will be documented in this file.
 
+## 1.? In Development
+
+- New function: $user->hasAnyFeatures() to check if any custom features are set.
+
 ## 1.1.0 - 2022-10-6
 
 - New Feature: Get plan/level name from existing subscription. (from Cashier, Spark, etc.)
