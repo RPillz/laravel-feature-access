@@ -181,4 +181,11 @@ trait HasFeatureAccess
 
         return true;
     }
+
+    public function hasAnyFeatures(): bool
+    {
+        if ($this->featureAccess->count() > 0) return true;
+
+        return false;
+    }
 }
