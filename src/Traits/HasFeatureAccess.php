@@ -99,14 +99,14 @@ trait HasFeatureAccess
     {
         $data = $this->getFeatureData($feature_name);
 
-        return isset($data['limit']) ? $data['limit'] : null;
+        return array_key_exists('limit', $data) ? $data['limit'] : null;
     }
 
     public function withinFeatureLimit(string $feature_name, int $count, int $add = 0): bool
     {
         $data = $this->getFeatureData($feature_name);
 
-        if (isset($data['limit'])) {
+        if (array_key_exists('limit', $data)) {
             return $data['limit'] >= $count + $add ? true : false;
         }
 
@@ -180,5 +180,14 @@ trait HasFeatureAccess
         }
 
         return true;
+    }
+
+    public function hasAnyFeatures(): bool
+    {
+        if ($this->featureAccess->count() > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
