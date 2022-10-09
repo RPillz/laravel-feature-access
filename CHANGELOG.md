@@ -2,9 +2,10 @@
 
 All notable changes to `laravel-feature-access` will be documented in this file.
 
-## 1.? In Development
+## 1.1.1 - 2022-10-8
 
-- New function: $user->hasAnyFeatures() to check if any custom features are set.
+- New function: $user->hasAnyFeatures() to check if any custom features are set, or if they are using the default plan.
+- Bug fix: checking limits can return 0 (zero)
 
 ## 1.1.0 - 2022-10-6
 

@@ -85,6 +85,18 @@ it('checks limits on feature', function () {
     expect($will_be_over_limit)->toBeFalse();
 });
 
+it('can check for a limit equal to zero', function () {
+
+    $this->testUser->setFeatureAccess('sample-feature', 'custom', ['limit' => 0]);
+
+    $check_limit = $this->testUser->getFeatureLimit('sample-feature');
+    $this->assertEquals($check_limit, 0);
+
+    $over_limit = $this->testUser->withinFeatureLimit('sample-feature', 1);
+    expect($over_limit)->toBeFalse();
+
+});
+
 it('checks for a feature upgraded by user subscription', function () {
     $default_limit = $this->testUser->getFeatureLimit('sample-feature');
     $this->assertEquals($default_limit, 3);
