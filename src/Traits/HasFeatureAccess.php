@@ -27,7 +27,7 @@ trait HasFeatureAccess
     /*
     Save a custom override on a feature for this model.
     */
-    public function setFeatureAccess(string $feature_name, string $level, array $permission = null)
+    public function setFeatureAccess(string $feature_name, string $level, ?array $permission = null)
     {
         if (! is_array($permission)) {
             $permission = [];
@@ -63,7 +63,7 @@ trait HasFeatureAccess
     Checks for an active subscription for this model, and returns the plan name.
     Written for Cashier by default. Replace this function in your Model for custom integrations.
     */
-    public function getFeatureSubscriptionLevel(string $feature_name = null): ?string
+    public function getFeatureSubscriptionLevel(?string $feature_name = null): ?string
     {
         if ($this->subscriptions) { // check that the relationship exists
             // check for the first active subscription.

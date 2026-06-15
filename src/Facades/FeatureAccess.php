@@ -15,7 +15,7 @@ class FeatureAccess extends Facade
         return 'featureaccess';
     }
 
-    public static function getFeatureFromConfig(string $feature_name, string $level = null): ?array
+    public static function getFeatureFromConfig(string $feature_name, ?string $level = null): ?array
     {
         $feature = config('feature-access.'.$feature_name);
         unset($feature['levels']);
